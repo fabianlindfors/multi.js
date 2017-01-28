@@ -8,12 +8,14 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 
         <!-- Include multi.js -->
-        <link rel="stylesheet" type="text/css" href="../css/multi.css">
-        <script src="../js/multi.js"></script>
+        <link rel="stylesheet" type="text/css" href="../dist/multi.min.css">
+        <script src="../dist/multi.min.js"></script>
 
         <script>
             $(document).ready(function() {
-                $('select').multiple();
+                $('select').multi({
+                    search_placeholder: 'Search fruits...',
+                });
             });
         </script>
 
@@ -36,9 +38,18 @@
         <div class="container">
             <h1>multi.js</h1>
             <select multiple="multiple" name="favorite_fruits">
-                <option value="apple">Apple</option>
-                <option value="banana">Banana</option>
-                <option value="pear">Pear</option>
+                <option>Apple</option>
+                <option>Banana</option>
+                <option>Blueberry</option>
+                <option>Cherry</option>
+                <option>Coconut</option>
+                <option>Grapefruit</option>
+                <option>Kiwi</option>
+                <option>Lemon</option>
+                <option>Lime</option>
+                <option>Mango</option>
+                <option>Orange</option>
+                <option>Papaya</option>
             </select>
         </div>
 
