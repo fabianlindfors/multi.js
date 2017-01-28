@@ -5,6 +5,8 @@ multi.js is a user-friendly replacement for select boxes with the multiple attri
 
 Requires jQuery 1.6+.
 
+Check out the [demo](http://fabianlindfors.se/multijs/).
+
 ![Preview of multi.js](http://fabianlindfors.se/multijs/images/preview.png)
 
 Installation
@@ -37,4 +39,4 @@ $('.your-select-element').multi({
 
 License
 -----
-multi.js is licensed under MIT.
+multi.js is licensed under [MIT](https://github.com/Fabianlindfors/multi.js/blob/master/LICENSE).
