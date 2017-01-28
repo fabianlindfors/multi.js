@@ -90,6 +90,11 @@
                 return;
             }
 
+            // Make sure multiple is enabled
+            if ( ! $select.prop('multiple') ) {
+                return;
+            }
+
             // Hide select
             $select.css('display','none');
             $select.data('multijs', true);
