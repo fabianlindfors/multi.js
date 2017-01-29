@@ -39,7 +39,7 @@
 
         // Loop over select options and add to the non-selected and selected columns
         options.forEach(function(option) {
-            var $row = $('<a class="item"></a>').text(option.label).data('value', option.value);
+            var $row = $('<a tabindex="0" role="button" class="item"></a>').text(option.label).data('value', option.value);
 
             // Create clone of row and add to the selected column
             if ( option.selected ) {
@@ -52,6 +52,16 @@
                     $select.change();
                 });
 
+                // Add key handler to mark row as selected and make the control accessible
+                $clone.keypress(function() {
+                    if (event.keyCode === 32 || event.keyCode === 13) {
+                    // Prevent the default action to stop scrolling when space is pressed
+                    event.preventDefault();
+                    option.element.prop('selected', false);
+                    $select.change();
+                    }
+                });
+
                 $select.wrapper.selected.append($clone);
             }
 
@@ -59,6 +69,16 @@
             $row.click(function() {
                 option.element.prop('selected', 'selected');
                 $select.change();
+            });
+
+            // Add key handler to mark row as selected and make the control accessible
+            $row.keypress(function() {
+                if (event.keyCode === 32 || event.keyCode === 13) {
+                  // Prevent the default action to stop scrolling when space is pressed
+                  event.preventDefault();
+                  option.element.prop('selected', 'selected');
+                  $select.change();
+                }
             });
 
             // Apply search filtering
