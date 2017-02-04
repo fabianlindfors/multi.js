@@ -4,20 +4,9 @@
         <meta charset="utf-8">
         <title>multi.js Basic Example</title>
 
-        <!-- Include jQuery from Google CDN -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-
         <!-- Include multi.js -->
         <link rel="stylesheet" type="text/css" href="../dist/multi.min.css">
         <script src="../dist/multi.min.js"></script>
-
-        <script>
-            $(document).ready(function() {
-                $('select').multi({
-                    search_placeholder: 'Search fruits...',
-                });
-            });
-        </script>
 
         <style>
             /* Basic styling */
@@ -37,7 +26,8 @@
     <body>
         <div class="container">
             <h1>multi.js</h1>
-            <select multiple="multiple" name="favorite_fruits">
+
+            <select multiple="multiple" name="favorite_fruits" id="fruit_select">
                 <option>Apple</option>
                 <option>Banana</option>
                 <option>Blueberry</option>
@@ -51,7 +41,12 @@
                 <option>Orange</option>
                 <option>Papaya</option>
             </select>
+        </form>
         </div>
 
+        <script>
+            var select = document.getElementById('fruit_select');
+            multi( select );
+        </script>
     </body>
 </html>

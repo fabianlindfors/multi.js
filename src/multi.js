@@ -1,164 +1,211 @@
 /**
  * multi.js
  * A user-friendly replacement for select boxes with multiple attribute enabled.
- * Requires jQuery.
  *
  * Author: Fabian Lindfors
  * License: MIT
  */
-(function($) {
+var multi = (function() {
 
-    function refresh_select( $select, settings ) {
+    // Helper function to trigger an event on an element
+    var trigger_event = function( type, el ) {
+        var e = document.createEvent( 'HTMLEvents' );
+        e.initEvent( type, false, true );
+        el.dispatchEvent( e );
+    };
+
+
+    // Refreshes an already constructed multi.js instance
+    var refresh_select = function( select, settings ) {
 
         // Clear columns
-        $select.wrapper.selected.html('');
-        $select.wrapper.non_selected.html('');
+        select.wrapper.selected.innerHTML = '';
+        select.wrapper.non_selected.innerHTML = '';
 
         // Get search value
-        if ( $select.wrapper.search ) {
-            var query = $select.wrapper.search.val();
+        if ( select.wrapper.search ) {
+            var query = select.wrapper.search.value;
         }
 
-        var options = [];
-
-        // Find all select options
-        $select.find( 'option' ).each( function() {
-            var $option = $(this);
-
-            var value = $option.prop('value');
-            var label = $option.text();
-            var selected = $option.is(':selected');
-
-            options.push({
-                value: value,
-                label: label,
-                selected: selected,
-                element: $option,
-            });
-        });
-
         // Loop over select options and add to the non-selected and selected columns
-        options.forEach(function(option) {
-            var $row = $('<a tabindex="0" role="button" class="item"></a>').text(option.label).data('value', option.value);
+        for ( var i = 0; i < select.options.length; i++ ) {
 
-            // Create clone of row and add to the selected column
-            if ( option.selected ) {
-                $row.addClass('selected');
-                var $clone = $row.clone();
+            // We wrap our code in a immediately invoked function to get a new scope for our variables
+            // Without this the event handlers wouldn't work as option would be overriden each iteration
+            (function() {
 
-                // Add click handler to mark row as non-selected
-                $clone.click(function() {
-                    option.element.prop('selected', false);
-                    $select.change();
+                var option = select.options[i];
+
+                var value = option.value;
+                var label = option.textContent || option.innerText;
+
+                var row = document.createElement( 'a' );
+                row.tabIndex = 0;
+                row.className = 'item';
+                row.innerHTML = label;
+                row.setAttribute( 'role', 'button' );
+                row.setAttribute( 'data-value', value );
+
+                // Add row to selected column if option selected
+                if ( option.selected ) {
+
+                    row.className += ' selected';
+                    var clone = row.cloneNode( true );
+
+                    // Add click handler to mark option as not selected
+                    clone.addEventListener( 'click', function() {
+                        option.selected = false;
+                        trigger_event( 'change', select );
+                    });
+
+                    // Add keyboard handler to mark option as not selected
+                    clone.addEventListener( 'keypress', function(event) {
+                        if (event.keyCode === 32 || event.keyCode === 13) {
+                            // Prevent the default action to stop scrolling when space is pressed
+                            event.preventDefault();
+
+                            option.selected = false;
+                            trigger_event( 'change', select );
+                        }
+                    });
+
+                    select.wrapper.selected.appendChild( clone );
+
+                }
+
+                // Apply search filtering
+                if ( query && query != '' && label.toLowerCase().indexOf( query.toLowerCase() ) === -1 ) {
+                    return;
+                }
+
+                // Add click handler to mark option as selected
+                row.addEventListener( 'click', function() {
+                    option.selected = true;
+                    trigger_event( 'change', select );
                 });
 
-                // Add key handler to mark row as selected and make the control accessible
-                $clone.keypress(function() {
+                // Add keyboard handler to mark option as selected
+                row.addEventListener( 'keypress', function(event) {
                     if (event.keyCode === 32 || event.keyCode === 13) {
-                    // Prevent the default action to stop scrolling when space is pressed
-                    event.preventDefault();
-                    option.element.prop('selected', false);
-                    $select.change();
+                        // Prevent the default action to stop scrolling when space is pressed
+                        event.preventDefault();
+
+                        option.selected = true;
+                        trigger_event( 'change', select );
                     }
                 });
 
-                $select.wrapper.selected.append($clone);
-            }
+                select.wrapper.non_selected.appendChild( row );
 
-            // Add click handler to mark row as selected
-            $row.click(function() {
-                option.element.prop('selected', 'selected');
-                $select.change();
+            })();
+
+        }
+
+    };
+
+
+    // Intializes and constructs an multi.js instance
+    var init = function( select, settings ) {
+
+        /**
+         * Set up settings (optional parameter) and its default values
+         *
+         * Default values:
+         * enable_search : true
+         * search_placeholder : 'Search...'
+         */
+        settings = typeof settings !== 'undefined' ? settings : {};
+
+        settings['enable_search'] = typeof settings['enable_search'] !== 'undefined' ? settings['enable_search'] : true;
+        settings['search_placeholder'] = typeof settings['search_placeholder'] !== 'undefined' ? settings['search_placeholder'] : 'Search...';
+
+
+        // Check if already initalized
+        if ( select.dataset.multijs != null ) {
+            console.log('Already init');
+            return;
+        }
+
+        // Make sure element is select and multiple is enabled
+        if ( select.nodeName != 'SELECT' || ! select.multiple ) {
+            return;
+        }
+
+        // Hide select
+        select.style.display = 'none';
+        select.setAttribute( 'data-multijs', true );
+
+        // Start constructing selector
+        var wrapper = document.createElement( 'div' );
+        wrapper.className = 'multi-wrapper';
+
+
+        // Add search bar
+        if ( settings.enable_search ) {
+            var search = document.createElement( 'input' );
+            search.className = 'search-input';
+            search.type = 'text';
+            search.setAttribute( 'placeholder', settings.search_placeholder );
+
+            search.addEventListener( 'input', function() {
+                refresh_select( select, settings );
             });
 
-            // Add key handler to mark row as selected and make the control accessible
-            $row.keypress(function() {
-                if (event.keyCode === 32 || event.keyCode === 13) {
-                  // Prevent the default action to stop scrolling when space is pressed
-                  event.preventDefault();
-                  option.element.prop('selected', 'selected');
-                  $select.change();
-                }
-            });
+            wrapper.appendChild( search );
+            wrapper.search = search;
+        }
 
-            // Apply search filtering
-            if ( query && query != '' && option.label.toLowerCase().indexOf( query.toLowerCase() ) === -1 ) {
-                return;
-            }
+        // Add columns for selected and non-selected
+        var non_selected = document.createElement( 'div' );
+        non_selected.className = 'non-selected-wrapper';
 
-            $select.wrapper.non_selected.append($row);
+        var selected = document.createElement( 'div' );
+        selected.className = 'selected-wrapper';
 
+        wrapper.appendChild( non_selected );
+        wrapper.appendChild( selected );
+
+        wrapper.non_selected = non_selected;
+        wrapper.selected = selected;
+
+        select.wrapper = wrapper;
+
+        // Add multi.js wrapper after select element
+        select.parentNode.insertBefore( wrapper, select.nextSibling );
+
+        // Initialize selector with values from select element
+        refresh_select( select, settings );
+
+        // Refresh selector when select values change
+        select.addEventListener( 'change', function() {
+            refresh_select( select, settings );
         });
 
-    }
+    };
 
 
-    $.fn.multi = function( options ) {
+    return init;
 
-        var settings = $.extend({
-            'enable_search': true,
-            'search_placeholder': 'Search...',
-        }, options);
+}());
 
 
-        return this.each( function() {
+// Add jQuery wrapper if jQuery is present
+if ( typeof jQuery !== 'undefined' ) {
+    (function($) {
 
-            var $select = $(this);
+        $.fn.multi = function( settings ) {
 
-            // Check if already initalized
-            if ( $select.data('multijs') ) {
-                return;
-            }
+            settings = typeof settings !== 'undefined' ? settings : {};
 
-            // Make sure multiple is enabled
-            if ( ! $select.prop('multiple') ) {
-                return;
-            }
+            return this.each( function() {
 
-            // Hide select
-            $select.css('display','none');
-            $select.data('multijs', true);
+                var $select = $(this);
 
-            // Start constructing selector
-            var $wrapper = $('<div class="multi-wrapper">');
+                multi( $select.get(0), settings );
 
-            // Add search bar
-            if ( settings.enable_search ) {
-                var $search = $('<input class="search-input" type="text" />').prop('placeholder', settings.search_placeholder);
-
-                $search.on('input change keyup',function() {
-                    refresh_select( $select, settings );
-                })
-
-                $wrapper.append( $search );
-                $wrapper.search = $search;
-            }
-
-            // Add columns for selected and non-selected
-            var $non_selected = $('<div class="non-selected-wrapper">');
-            var $selected = $('<div class="selected-wrapper">');
-
-            $wrapper.append( $non_selected );
-            $wrapper.append( $selected );
-
-            $wrapper.non_selected = $non_selected;
-            $wrapper.selected = $selected;
-
-            $select.wrapper = $wrapper;
-
-            // Add multi.js wrapper after select element
-            $select.after( $wrapper );
-
-            // Initialize selector with values from select element
-            refresh_select( $select, settings );
-
-            // Refresh selector when select values change
-            $select.change(function() {
-                refresh_select( $select, settings );
             });
 
-        });
+        }
 
-    }
-
-})(jQuery);
+    })(jQuery);
+}

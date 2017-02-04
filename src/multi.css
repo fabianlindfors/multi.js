@@ -52,7 +52,7 @@
     opacity: 0.5;
 }
 
-.multi-wrapper .non-selected-wrapper .row.selected:hover {
+.multi-wrapper .non-selected-wrapper .item.selected:hover {
     background: inherit;
     cursor: inherit;
 }
