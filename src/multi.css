@@ -46,6 +46,7 @@
     outline: 0;
     padding: 10px 20px;
     width: 100%;
+    box-sizing: border-box;
 }
 
 .multi-wrapper .non-selected-wrapper .item.selected {
