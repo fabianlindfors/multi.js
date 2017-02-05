@@ -48,6 +48,7 @@ TODO
 * Browser testing
 * Support for optgroups
 * Support for retrieving options by AJAX
+* Tests
 
 License
 -----
