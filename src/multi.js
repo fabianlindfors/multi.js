@@ -53,12 +53,6 @@ var multi = (function() {
                     row.className += ' selected';
                     var clone = row.cloneNode( true );
 
-                    // Add click handler to mark option as not selected
-                    clone.addEventListener( 'click', function() {
-                        option.selected = false;
-                        trigger_event( 'change', select );
-                    });
-
                     // Add keyboard handler to mark option as not selected
                     clone.addEventListener( 'keypress', function(event) {
                         if (event.keyCode === 32 || event.keyCode === 13) {
@@ -78,12 +72,6 @@ var multi = (function() {
                 if ( query && query != '' && label.toLowerCase().indexOf( query.toLowerCase() ) === -1 ) {
                     return;
                 }
-
-                // Add click handler to mark option as selected
-                row.addEventListener( 'click', function() {
-                    option.selected = true;
-                    trigger_event( 'change', select );
-                });
 
                 // Add keyboard handler to mark option as selected
                 row.addEventListener( 'keypress', function(event) {
@@ -162,6 +150,22 @@ var multi = (function() {
 
         var selected = document.createElement( 'div' );
         selected.className = 'selected-wrapper';
+
+
+        // Add click handler to toggle the selected status of the option
+        wrapper.addEventListener( 'click', function ( event ) {
+
+            var target = event.target;
+            var option;
+
+            if ( target.getAttribute( 'multi-index' ) ) {
+                option = select.options[ target.getAttribute( 'multi-index' ) ];
+                option.selected = !option.selected;
+                trigger_event( 'change', select );
+            }
+
+        } );
+
 
         wrapper.appendChild( non_selected );
         wrapper.appendChild( selected );
