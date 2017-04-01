@@ -45,6 +45,7 @@ var multi = (function() {
                 row.innerHTML = label;
                 row.setAttribute( 'role', 'button' );
                 row.setAttribute( 'data-value', value );
+                row.setAttribute( 'multi-index', i );
 
                 // Add row to selected column if option selected
                 if ( option.selected ) {
