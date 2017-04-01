@@ -36,40 +36,34 @@ var multi = (function() {
         // Loop over select options and add to the non-selected and selected columns
         for ( var i = 0; i < select.options.length; i++ ) {
 
-            // We wrap our code in a immediately invoked function to get a new scope for our variables
-            // Without this the event handlers wouldn't work as option would be overriden each iteration
-            (function() {
+            var option = select.options[i];
 
-                var option = select.options[i];
+            var value = option.value;
+            var label = option.textContent || option.innerText;
 
-                var value = option.value;
-                var label = option.textContent || option.innerText;
+            var row = document.createElement( 'a' );
+            row.tabIndex = 0;
+            row.className = 'item';
+            row.innerHTML = label;
+            row.setAttribute( 'role', 'button' );
+            row.setAttribute( 'data-value', value );
+            row.setAttribute( 'multi-index', i );
 
-                var row = document.createElement( 'a' );
-                row.tabIndex = 0;
-                row.className = 'item';
-                row.innerHTML = label;
-                row.setAttribute( 'role', 'button' );
-                row.setAttribute( 'data-value', value );
-                row.setAttribute( 'multi-index', i );
+            // Add row to selected column if option selected
+            if ( option.selected ) {
 
-                // Add row to selected column if option selected
-                if ( option.selected ) {
+                row.className += ' selected';
+                var clone = row.cloneNode( true );
+                select.wrapper.selected.appendChild( clone );
 
-                    row.className += ' selected';
-                    var clone = row.cloneNode( true );
-                    select.wrapper.selected.appendChild( clone );
+            }
 
-                }
+            // Apply search filtering
+            if ( query && query != '' && label.toLowerCase().indexOf( query.toLowerCase() ) === -1 ) {
+                return;
+            }
 
-                // Apply search filtering
-                if ( query && query != '' && label.toLowerCase().indexOf( query.toLowerCase() ) === -1 ) {
-                    return;
-                }
-
-                select.wrapper.non_selected.appendChild( row );
-
-            })();
+            select.wrapper.non_selected.appendChild( row );
 
         }
 
