@@ -59,13 +59,8 @@ var multi = (function() {
             }
 
             // Apply search filtering
-            if ( query ) {
-                if ( label.toLowerCase().indexOf( query.toLowerCase() ) > -1 ) {
-                    select.wrapper.non_selected.appendChild( row );
-                }
-            } else {
+            if ( !query || query && label.toLowerCase().indexOf( query.toLowerCase() ) > -1 ) {
                 select.wrapper.non_selected.appendChild( row );
-
             }
 
         }
