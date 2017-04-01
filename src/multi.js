@@ -14,6 +14,12 @@ var multi = (function() {
         el.dispatchEvent( e );
     };
 
+    // Toggles the target option on the select
+    var toggleOption = function ( select, event ) {
+        var option = select.options[ event.target.getAttribute( 'multi-index' ) ];
+        option.selected = !option.selected;
+        trigger_event( 'change', select );
+    };
 
     // Refreshes an already constructed multi.js instance
     var refresh_select = function( select, settings ) {
@@ -128,40 +134,26 @@ var multi = (function() {
         var selected = document.createElement( 'div' );
         selected.className = 'selected-wrapper';
 
-
         // Add click handler to toggle the selected status
         wrapper.addEventListener( 'click', function ( event ) {
-
-            var target = event.target;
-            var option;
-
-            if ( target.getAttribute( 'multi-index' ) ) {
-                option = select.options[ target.getAttribute( 'multi-index' ) ];
-                option.selected = !option.selected;
-                trigger_event( 'change', select );
+            if ( event.target.getAttribute( 'multi-index' ) ) {
+                toggleOption( select, event );
             }
-
         } );
-
 
         // Add keyboard handler to toggle the selected status
         wrapper.addEventListener( 'keypress', function ( event ) {
 
-            var target = event.target;
             var isActionKey = event.keyCode === 32 || event.keyCode === 13;
-            var isOption = target.getAttribute( 'multi-index' );
-            var option;
+            var isOption = event.target.getAttribute( 'multi-index' );
 
             if ( isOption && isActionKey ) {
                 // Prevent the default action to stop scrolling when space is pressed
                 event.preventDefault();
-                option = select.options[ target.getAttribute( 'multi-index' ) ];
-                option.selected = !option.selected;
-                trigger_event( 'change', select );
+                toggleOption( select, event );
             }
 
         } );
-
 
         wrapper.appendChild( non_selected );
         wrapper.appendChild( selected );
