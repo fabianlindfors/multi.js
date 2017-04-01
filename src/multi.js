@@ -59,11 +59,14 @@ var multi = (function() {
             }
 
             // Apply search filtering
-            if ( query && query != '' && label.toLowerCase().indexOf( query.toLowerCase() ) === -1 ) {
-                return;
-            }
+            if ( query ) {
+                if ( label.toLowerCase().indexOf( query.toLowerCase() ) > -1 ) {
+                    select.wrapper.non_selected.appendChild( row );
+                }
+            } else {
+                select.wrapper.non_selected.appendChild( row );
 
-            select.wrapper.non_selected.appendChild( row );
+            }
 
         }
 
