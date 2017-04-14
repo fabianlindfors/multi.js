@@ -14,6 +14,12 @@ var multi = (function() {
         el.dispatchEvent( e );
     };
 
+    // Toggles the target option on the select
+    var toggleOption = function ( select, event ) {
+        var option = select.options[ event.target.getAttribute( 'multi-index' ) ];
+        option.selected = !option.selected;
+        trigger_event( 'change', select );
+    };
 
     // Refreshes an already constructed multi.js instance
     var refresh_select = function( select, settings ) {
@@ -30,74 +36,32 @@ var multi = (function() {
         // Loop over select options and add to the non-selected and selected columns
         for ( var i = 0; i < select.options.length; i++ ) {
 
-            // We wrap our code in a immediately invoked function to get a new scope for our variables
-            // Without this the event handlers wouldn't work as option would be overriden each iteration
-            (function() {
+            var option = select.options[i];
 
-                var option = select.options[i];
+            var value = option.value;
+            var label = option.textContent || option.innerText;
 
-                var value = option.value;
-                var label = option.textContent || option.innerText;
+            var row = document.createElement( 'a' );
+            row.tabIndex = 0;
+            row.className = 'item';
+            row.innerHTML = label;
+            row.setAttribute( 'role', 'button' );
+            row.setAttribute( 'data-value', value );
+            row.setAttribute( 'multi-index', i );
 
-                var row = document.createElement( 'a' );
-                row.tabIndex = 0;
-                row.className = 'item';
-                row.innerHTML = label;
-                row.setAttribute( 'role', 'button' );
-                row.setAttribute( 'data-value', value );
+            // Add row to selected column if option selected
+            if ( option.selected ) {
 
-                // Add row to selected column if option selected
-                if ( option.selected ) {
+                row.className += ' selected';
+                var clone = row.cloneNode( true );
+                select.wrapper.selected.appendChild( clone );
 
-                    row.className += ' selected';
-                    var clone = row.cloneNode( true );
+            }
 
-                    // Add click handler to mark option as not selected
-                    clone.addEventListener( 'click', function() {
-                        option.selected = false;
-                        trigger_event( 'change', select );
-                    });
-
-                    // Add keyboard handler to mark option as not selected
-                    clone.addEventListener( 'keypress', function(event) {
-                        if (event.keyCode === 32 || event.keyCode === 13) {
-                            // Prevent the default action to stop scrolling when space is pressed
-                            event.preventDefault();
-
-                            option.selected = false;
-                            trigger_event( 'change', select );
-                        }
-                    });
-
-                    select.wrapper.selected.appendChild( clone );
-
-                }
-
-                // Apply search filtering
-                if ( query && query != '' && label.toLowerCase().indexOf( query.toLowerCase() ) === -1 ) {
-                    return;
-                }
-
-                // Add click handler to mark option as selected
-                row.addEventListener( 'click', function() {
-                    option.selected = true;
-                    trigger_event( 'change', select );
-                });
-
-                // Add keyboard handler to mark option as selected
-                row.addEventListener( 'keypress', function(event) {
-                    if (event.keyCode === 32 || event.keyCode === 13) {
-                        // Prevent the default action to stop scrolling when space is pressed
-                        event.preventDefault();
-
-                        option.selected = true;
-                        trigger_event( 'change', select );
-                    }
-                });
-
+            // Apply search filtering
+            if ( !query || query && label.toLowerCase().indexOf( query.toLowerCase() ) > -1 ) {
                 select.wrapper.non_selected.appendChild( row );
-
-            })();
+            }
 
         }
 
@@ -161,6 +125,27 @@ var multi = (function() {
 
         var selected = document.createElement( 'div' );
         selected.className = 'selected-wrapper';
+
+        // Add click handler to toggle the selected status
+        wrapper.addEventListener( 'click', function ( event ) {
+            if ( event.target.getAttribute( 'multi-index' ) ) {
+                toggleOption( select, event );
+            }
+        } );
+
+        // Add keyboard handler to toggle the selected status
+        wrapper.addEventListener( 'keypress', function ( event ) {
+
+            var isActionKey = event.keyCode === 32 || event.keyCode === 13;
+            var isOption = event.target.getAttribute( 'multi-index' );
+
+            if ( isOption && isActionKey ) {
+                // Prevent the default action to stop scrolling when space is pressed
+                event.preventDefault();
+                toggleOption( select, event );
+            }
+
+        } );
 
         wrapper.appendChild( non_selected );
         wrapper.appendChild( selected );
