@@ -51,6 +51,12 @@ TODO
 * Support for retrieving options by AJAX
 * Tests
 
+Contributing
+-----
+All contributions, big and small, are very welcome.
+
+Try to mimic the general programming style (mostly based on personal preferences) and keep any CSS as simple as possible. Build the project with Grunt and bump the version number before creating a pull request.
+
 License
 -----
 multi.js is licensed under [MIT](https://github.com/Fabianlindfors/multi.js/blob/master/LICENSE).
