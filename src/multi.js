@@ -16,6 +16,7 @@ var multi = (function() {
 
     // Toggles the target option on the select
     var toggleOption = function ( select, event ) {
+    var toggle_option = function ( select, event ) {
         var option = select.options[ event.target.getAttribute( 'multi-index' ) ];
         option.selected = !option.selected;
         trigger_event( 'change', select );
@@ -86,7 +87,6 @@ var multi = (function() {
 
         // Check if already initalized
         if ( select.dataset.multijs != null ) {
-            console.log('Already init');
             return;
         }
 
@@ -119,6 +119,7 @@ var multi = (function() {
             wrapper.search = search;
         }
 
+
         // Add columns for selected and non-selected
         var non_selected = document.createElement( 'div' );
         non_selected.className = 'non-selected-wrapper';
@@ -126,26 +127,33 @@ var multi = (function() {
         var selected = document.createElement( 'div' );
         selected.className = 'selected-wrapper';
 
+
         // Add click handler to toggle the selected status
         wrapper.addEventListener( 'click', function ( event ) {
+
             if ( event.target.getAttribute( 'multi-index' ) ) {
-                toggleOption( select, event );
+                toggle_option( select, event );
             }
-        } );
+
+        });
+
 
         // Add keyboard handler to toggle the selected status
         wrapper.addEventListener( 'keypress', function ( event ) {
 
-            var isActionKey = event.keyCode === 32 || event.keyCode === 13;
-            var isOption = event.target.getAttribute( 'multi-index' );
+            var is_action_key = event.keyCode === 32 || event.keyCode === 13;
+            var is_option = event.target.getAttribute( 'multi-index' );
 
-            if ( isOption && isActionKey ) {
+            if ( is_option && is_action_key ) {
+
                 // Prevent the default action to stop scrolling when space is pressed
                 event.preventDefault();
-                toggleOption( select, event );
+                toggle_option( select, event );
+                
             }
 
-        } );
+        });
+
 
         wrapper.appendChild( non_selected );
         wrapper.appendChild( selected );
@@ -157,6 +165,7 @@ var multi = (function() {
 
         // Add multi.js wrapper after select element
         select.parentNode.insertBefore( wrapper, select.nextSibling );
+
 
         // Initialize selector with values from select element
         refresh_select( select, settings );
