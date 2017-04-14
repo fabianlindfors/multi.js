@@ -45,8 +45,8 @@ $( '#your_select_element' ).multi();
 TODO
 -----
 * ~~Native Javascript, no jQuery~~
+* ~~Support for disabled options~~
 * Browser testing
-* Support for disabled options
 * Support for optgroups
 * Support for retrieving options by AJAX
 * Tests
