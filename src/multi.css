@@ -52,7 +52,12 @@
     opacity: 0.5;
 }
 
-.multi-wrapper .non-selected-wrapper .item.selected:hover {
-    background: inherit;
-    cursor: inherit;
+.multi-wrapper .non-selected-wrapper .item.disabled {
+  opacity: 0.5;
+  text-decoration: line-through;
+}
+
+.multi-wrapper .non-selected-wrapper .item.disabled:hover {
+  background: inherit;
+  cursor: inherit;
 }

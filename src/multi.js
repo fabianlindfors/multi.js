@@ -15,9 +15,13 @@ var multi = (function() {
     };
 
     // Toggles the target option on the select
-    var toggleOption = function ( select, event ) {
     var toggle_option = function ( select, event ) {
         var option = select.options[ event.target.getAttribute( 'multi-index' ) ];
+
+        if ( option.disabled ) {
+          return;
+        }
+
         option.selected = !option.selected;
         trigger_event( 'change', select );
     };
@@ -49,6 +53,10 @@ var multi = (function() {
             row.setAttribute( 'role', 'button' );
             row.setAttribute( 'data-value', value );
             row.setAttribute( 'multi-index', i );
+
+            if ( option.disabled ) {
+              row.className += ' disabled';
+            }
 
             // Add row to selected column if option selected
             if ( option.selected ) {
