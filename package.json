@@ -1,6 +1,18 @@
 {
   "name": "multi.js",
   "version": "0.2.2",
+  "description": "A user-friendly replacement for select boxes with multiple attribute enabled",
+  "keywords": ["user-friendly", "select", "multiple", "simple"],
+  "homepage": "https://github.com/Fabianlindfors/multi.js",
+  "license": "MIT",
+  "author": {
+    "name": "Fabian Lindfors",
+    "url": "http://fabianlindfors.se"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Fabianlindfors/multi.js.git"
+  },
   "devDependencies": {
     "grunt": "~0.4.5",
     "grunt-contrib-cssmin": "^1.0.2",
