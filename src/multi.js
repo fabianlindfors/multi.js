@@ -91,7 +91,9 @@ var multi = (function() {
 
         settings['enable_search'] = typeof settings['enable_search'] !== 'undefined' ? settings['enable_search'] : true;
         settings['search_placeholder'] = typeof settings['search_placeholder'] !== 'undefined' ? settings['search_placeholder'] : 'Search...';
-
+        settings['select_all'] = typeof settings['select_all'] !== 'undefined' ? settings['select_all'] : false;
+        settings['select_all_button_class'] = typeof settings['select_all_button_class'] !== 'undefined' ? settings['select_all_button_class'] : '';
+        settings['deselect_all_button_class'] = typeof settings['deselect_all_button_class'] !== 'undefined' ? settings['deselect_all_button_class'] : '';
 
         // Check if already initalized
         if ( select.dataset.multijs != null ) {
@@ -165,6 +167,51 @@ var multi = (function() {
 
         wrapper.appendChild( non_selected );
         wrapper.appendChild( selected );
+
+        // Add select all and deselect all buttons
+        if ( settings.select_all ) {
+            var selectAll = document.createElement( 'button' );
+            var deselectAll = document.createElement( 'button' );
+            var selectAllTextNode = document.createTextNode("Select All");
+            var deselectAllTextNode = document.createTextNode("Deselect All");
+            selectAll.appendChild(selectAllTextNode);
+            deselectAll.appendChild(deselectAllTextNode);
+
+            // Add classes to buttons
+            selectAll.className = 'select-all-button';
+            deselectAll.className = 'deselect-all-button';
+            if (settings.select_all_button_class) {
+                selectAll.className += ' ' + settings.select_all_button_class
+            }
+            if (settings.deselect_all_button_class) {
+                deselectAll.className += ' ' + settings.deselect_all_button_class
+            }
+            
+            // Add click handler to select all options
+            selectAll.addEventListener( 'click', function(event) {
+                for( var i = 0; i < select.options.length; i++ ){
+                    if(!select.options[i].selected){
+                        select.options[i].selected = true
+                    }
+                }
+                refresh_select( select, settings );
+            });
+
+            // Add click handler to deselect all options
+            deselectAll.addEventListener( 'click', function() {
+                for( var i = 0; i < select.options.length; i++ ){
+                    if(select.options[i].selected){
+                        select.options[i].selected = false
+                    }
+                }
+                refresh_select( select, settings );
+            });
+
+            wrapper.appendChild( selectAll );
+            wrapper.appendChild( deselectAll );
+            wrapper.selectAll = selectAll;
+            wrapper.deselectAll = deselectAll;
+        }
 
         wrapper.non_selected = non_selected;
         wrapper.selected = selected;
