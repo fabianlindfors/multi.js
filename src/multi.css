@@ -24,6 +24,14 @@
     background: #fff;
 }
 
+.multi-wrapper .header {
+    border-bottom: solid #d3d3d3 1px;
+    color: #4f4f4f;
+    cursor: default;
+    font-weight: bold;
+    padding: 5px 10px;
+}
+
 .multi-wrapper .item {
     cursor: pointer;
     display: block;
