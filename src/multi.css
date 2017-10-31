@@ -25,10 +25,10 @@
 }
 
 .multi-wrapper .header {
-    border-bottom: solid #d3d3d3 1px;
     color: #4f4f4f;
     cursor: default;
     font-weight: bold;
+    margin-bottom: 5px;
     padding: 5px 10px;
 }
 
