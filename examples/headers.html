@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>multi.js Headers Example</title>
+
+        <!-- Include multi.js -->
+        <link rel="stylesheet" type="text/css" href="../dist/multi.min.css">
+        <script src="../dist/multi.min.js"></script>
+
+        <style>
+            /* Basic styling */
+            body {
+                font-family: sans-serif;
+            }
+
+            .container {
+                box-sizing: border-box;;
+                margin: 0 auto;
+                max-width: 500px;
+                padding: 0 20px;
+                width: 100%;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>multi.js</h1>
+
+            <select multiple="multiple" name="favorite_fruits" id="fruit_select">
+                <option selected="selected" disabled="disabled">Apple</option>
+                <option>Banana</option>
+                <option>Blueberry</option>
+                <option>Cherry</option>
+                <option>Coconut</option>
+                <option>Grapefruit</option>
+                <option>Kiwi</option>
+                <option>Lemon</option>
+                <option>Lime</option>
+                <option>Mango</option>
+                <option>Orange</option>
+                <option>Papaya</option>
+            </select>
+        </form>
+        </div>
+
+        <script>
+            var select = document.getElementById('fruit_select');
+            multi( select, {
+                non_selected_header: 'Fruits',
+                selected_header: 'Favorite fruits'
+            });
+        </script>
+    </body>
+</html>

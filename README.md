@@ -32,9 +32,23 @@ To customize multi a few options can be passed with the function call. Below are
 multi( select_element, {
     'enable_search': true,
     'search_placeholder': 'Search...',
+    'non_selected_header': null,
+    'selected_header': null
 });
 ```
 
+### Column headers
+
+To add headers to both columns set values for these options:
+
+```javascript
+multi( select_element, {
+    'non_selected_header': 'All options',
+    'selected_header': 'Selected options'
+});
+```
+
+### jQuery
 
 multi.js is fully native Javascript but also has jQuery support. If you have jQuery included multi can be applied to a select element as follows:
 
