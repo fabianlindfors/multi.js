@@ -9,7 +9,19 @@ Check out the [demo](http://fabianlindfors.se/multijs/).
 
 Installation
 -----
-Clone or download the repository to your project and include both files in the dist directory.
+Install with npm:
+
+```bash
+npm install --save multi.js
+```
+
+Install with yarn:
+
+```bash
+yarn add multi.js
+```
+
+Install manually by cloning or downloading the repository to your project and including both files in the dist directory.
 
 ```html
 <link rel="stylesheet" type="text/css" href="multijs/dist/multi.min.css">
