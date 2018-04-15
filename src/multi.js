@@ -52,6 +52,10 @@ var multi = (function() {
             var query = select.wrapper.search.value;
         }
 
+        // Current group
+        var item_group = null;
+        var current_optgroup = null;
+
         // Loop over select options and add to the non-selected and selected columns
         for ( var i = 0; i < select.options.length; i++ ) {
 
@@ -74,16 +78,41 @@ var multi = (function() {
 
             // Add row to selected column if option selected
             if ( option.selected ) {
-
                 row.className += ' selected';
                 var clone = row.cloneNode( true );
                 select.wrapper.selected.appendChild( clone );
+            }
 
+            // Create group if entering a new optgroup
+            if ( option.parentNode.nodeName == 'OPTGROUP' && option.parentNode != current_optgroup ) {
+                current_optgroup = option.parentNode
+                item_group = document.createElement( 'div' );
+                item_group.className = 'item-group';
+
+                if ( option.parentNode.label ) {
+                    var label = document.createElement( 'span' );
+                    label.innerHTML = option.parentNode.label;
+                    label.className = 'group-label'
+                    item_group.appendChild(label);
+                }
+
+                select.wrapper.non_selected.appendChild( item_group );
+            }
+
+            // Clear group if not inside optgroup
+            if ( option.parentNode == select ) {
+                item_group = null;
+                current_optgroup = null;
             }
 
             // Apply search filtering
             if ( !query || query && label.toLowerCase().indexOf( query.toLowerCase() ) > -1 ) {
-                select.wrapper.non_selected.appendChild( row );
+                // Append to group if one exists, else just append to wrapper
+                if ( item_group != null ) {
+                    item_group.appendChild( row );
+                } else {
+                    select.wrapper.non_selected.appendChild( row );
+                }
             }
 
         }
