@@ -72,8 +72,8 @@ TODO
 -----
 * ~~Native Javascript, no jQuery~~
 * ~~Support for disabled options~~
+* ~~Support for optgroups~~
 * Browser testing
-* Support for optgroups
 * Support for retrieving options by AJAX
 * Tests
 
