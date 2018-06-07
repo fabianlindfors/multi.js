@@ -45,7 +45,10 @@ multi( select_element, {
     'enable_search': true,
     'search_placeholder': 'Search...',
     'non_selected_header': null,
-    'selected_header': null
+    'selected_header': null,
+    'limit': -1,
+    'limit_reached': function () {},
+    'limit_overcome': function () {},
 });
 ```
 
@@ -57,6 +60,30 @@ To add headers to both columns set values for these options:
 multi( select_element, {
     'non_selected_header': 'All options',
     'selected_header': 'Selected options'
+});
+```
+
+### Limit
+
+You can add a limit of option selected for your select using the `limit` parameter. Default is -1, which means "no limit".
+
+```javascript
+multi( select_element, {
+    'limit': 10
+});
+```
+
+Additionally, there are two available callbacks: `limit_reached`, invoked when the user selects the last available option before reaching the limit (for example, the 10th element of a maximum of 10) and `limit_overcome`, invoked when trying to select an option also if the limit is already reached (for example, the 11th element of a maximum of 10).
+
+```javascript
+multi( select_element, {
+    'limit': 10,
+    'limit_reached': function () {
+      alert('You have selected 10/10 elements.');
+    },
+    'limit_overcome': function () {
+      alert('You already have reached the limit of 10.');
+    }
 });
 ```
 

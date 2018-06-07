@@ -15,11 +15,38 @@ var multi = (function() {
     };
 
     // Toggles the target option on the select
-    var toggle_option = function ( select, event ) {
+    var toggle_option = function ( select, event, settings ) {
         var option = select.options[event.target.getAttribute("multi-index")];
 
         if (option.disabled) {
           return;
+        }
+
+        // Check if there is a limit and if is reached
+        var limit = settings.limit;
+        if (limit > -1 && !option.selected) {
+            // Count current selected
+            var selected_count = 0
+            for (i = 0; i < select.options.length; i++) {
+                if (select.options[i].selected) {
+                    selected_count++;
+                }
+            }
+
+            // Reached the limit, trigger the function (if there is)
+            // Limit - 1 because the "next" (+1) would be the current option
+            if (selected_count === limit - 1 && typeof settings.limit_reached === 'function') {
+                settings.limit_reached();
+            }
+
+            // Trying to overcome the limit, stop and trigger the function (if there is)
+            if (selected_count === limit) {
+                if (typeof settings.limit_overcome === 'function') {
+                    settings.limit_overcome();
+                }
+
+                return;
+            }
         }
 
         option.selected = !option.selected;
@@ -135,7 +162,10 @@ var multi = (function() {
         settings["search_placeholder"] = typeof settings["search_placeholder"] !== "undefined" ? settings["search_placeholder"] : "Search...";
         settings["non_selected_header"] = typeof settings["non_selected_header"] !== "undefined" ? settings["non_selected_header"] : null;
         settings["selected_header"] = typeof settings["selected_header"] !== "undefined" ? settings["selected_header"] : null;
-
+        settings["limit"] = typeof settings["limit"] !== "undefined" ? parseInt(settings["limit"]) : -1;
+        if (isNaN(settings["limit"])) {
+            settings["limit"] = -1;
+        }
 
         // Check if already initalized
         if (select.dataset.multijs != null) {
@@ -183,7 +213,7 @@ var multi = (function() {
         // Add click handler to toggle the selected status
         wrapper.addEventListener("click", function (event) {
             if (event.target.getAttribute("multi-index")) {
-                toggle_option(select, event);
+                toggle_option(select, event, settings);
             }
         });
 
@@ -196,7 +226,7 @@ var multi = (function() {
             if (is_option && is_action_key) {
                 // Prevent the default action to stop scrolling when space is pressed
                 event.preventDefault();
-                toggle_option(select, event);
+                toggle_option(select, event, settings);
             }
         });
 
