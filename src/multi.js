@@ -6,6 +6,7 @@
  * License: MIT
  */
 var multi = (function() {
+    var disabled_limit = false // This will prevent to reset the "disabled" because of the limit at every click
 
     // Helper function to trigger an event on an element
     var trigger_event = function(type, el) {
@@ -22,34 +23,51 @@ var multi = (function() {
           return;
         }
 
+        option.selected = !option.selected;
+
+
         // Check if there is a limit and if is reached
         var limit = settings.limit;
-        if (limit > -1 && !option.selected) {
+        if (limit > -1) {
             // Count current selected
             var selected_count = 0
-            for (i = 0; i < select.options.length; i++) {
+            for (var i = 0; i < select.options.length; i++) {
                 if (select.options[i].selected) {
                     selected_count++;
                 }
             }
 
-            // Reached the limit, trigger the function (if there is)
-            // Limit - 1 because the "next" (+1) would be the current option
-            if (selected_count === limit - 1 && typeof settings.limit_reached === 'function') {
-                settings.limit_reached();
-            }
-
-            // Trying to overcome the limit, stop and trigger the function (if there is)
+            // Reached the limit
             if (selected_count === limit) {
-                if (typeof settings.limit_overcome === 'function') {
-                    settings.limit_overcome();
+                this.disabled_limit = true
+
+                // Trigger the function (if there is)
+                if (typeof settings.limit_reached === 'function') {
+                    settings.limit_reached();
                 }
 
-                return;
+                // Disable all non-selected option
+                for (var i = 0; i < select.options.length; i++) {
+                    var opt = select.options[i];
+
+                    if (!opt.selected) {
+                        opt.setAttribute("disabled", true);
+                    }
+                }
+            } else if (this.disabled_limit) {
+                // Enable options (only if they weren't disabled on init)
+                for (var i = 0; i < select.options.length; i++) {
+                    var opt = select.options[i];
+
+                    if (opt.getAttribute("data-origin-disabled") === 'false') {
+                        opt.removeAttribute("disabled");
+                    }
+                }
+
+                this.disabled_limit = false
             }
         }
 
-        option.selected = !option.selected;
         trigger_event("change", select);
     };
 
@@ -242,6 +260,11 @@ var multi = (function() {
         // Add multi.js wrapper after select element
         select.parentNode.insertBefore(wrapper, select.nextSibling);
 
+        // Save current state
+        for (var i = 0; i < select.options.length; i++) {
+            var option = select.options[i];
+            option.setAttribute("data-origin-disabled", option.disabled);
+        }
 
         // Initialize selector with values from select element
         refresh_select( select, settings );
@@ -250,7 +273,6 @@ var multi = (function() {
         select.addEventListener("change", function() {
             refresh_select(select, settings);
         });
-
     };
 
 

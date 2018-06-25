@@ -48,7 +48,6 @@ multi( select_element, {
     'selected_header': null,
     'limit': -1,
     'limit_reached': function () {},
-    'limit_overcome': function () {},
 });
 ```
 
@@ -73,16 +72,13 @@ multi( select_element, {
 });
 ```
 
-Additionally, there are two available callbacks: `limit_reached`, invoked when the user selects the last available option before reaching the limit (for example, the 10th element of a maximum of 10) and `limit_overcome`, invoked when trying to select an option also if the limit is already reached (for example, the 11th element of a maximum of 10).
+Additionally, there a callback is available: `limit_reached`, invoked when the user selects the last available option before reaching the limit (for example, the 10th element of a maximum of 10).
 
 ```javascript
 multi( select_element, {
     'limit': 10,
     'limit_reached': function () {
       alert('You have selected 10/10 elements.');
-    },
-    'limit_overcome': function () {
-      alert('You already have reached the limit of 10.');
     }
 });
 ```
