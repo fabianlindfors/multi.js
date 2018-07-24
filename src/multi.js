@@ -53,6 +53,11 @@ var multi = (function() {
             var query = select.wrapper.search.value;
         }
 
+        // Pre-set validation error if required.
+        if (settings.required) {
+          select.wrapper.search.setCustomValidity('Please select an item in the list');
+        }
+
         // Current group
         var item_group = null;
         var current_optgroup = null;
@@ -81,6 +86,7 @@ var multi = (function() {
                 row.className += " selected";
                 var clone = row.cloneNode( true );
                 select.wrapper.selected.appendChild(clone);
+                select.wrapper.search.setCustomValidity(''); // Clear validation error for required.
             }
 
             // Create group if entering a new optgroup
@@ -136,6 +142,8 @@ var multi = (function() {
         settings["non_selected_header"] = typeof settings["non_selected_header"] !== "undefined" ? settings["non_selected_header"] : null;
         settings["selected_header"] = typeof settings["selected_header"] !== "undefined" ? settings["selected_header"] : null;
 
+        settings["required"] = select.required; // Honour the select's required attribute.
+
 
         // Check if already initalized
         if (select.dataset.multijs != null) {
@@ -154,6 +162,9 @@ var multi = (function() {
         // Start constructing selector
         var wrapper = document.createElement( "div" );
         wrapper.className = "multi-wrapper";
+        if (settings["required"]) {
+          wrapper.className += " required";
+        }
 
 
         // Add search bar
