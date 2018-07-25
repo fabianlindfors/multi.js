@@ -6,6 +6,7 @@
  * License: MIT
  */
 var multi = (function() {
+    var disabled_limit = false // This will prevent to reset the "disabled" because of the limit at every click
 
     // Helper function to trigger an event on an element
     var trigger_event = function(type, el) {
@@ -15,7 +16,7 @@ var multi = (function() {
     };
 
     // Toggles the target option on the select
-    var toggle_option = function ( select, event ) {
+    var toggle_option = function ( select, event, settings ) {
         var option = select.options[event.target.getAttribute("multi-index")];
 
         if (option.disabled) {
@@ -23,6 +24,50 @@ var multi = (function() {
         }
 
         option.selected = !option.selected;
+
+
+        // Check if there is a limit and if is reached
+        var limit = settings.limit;
+        if (limit > -1) {
+            // Count current selected
+            var selected_count = 0
+            for (var i = 0; i < select.options.length; i++) {
+                if (select.options[i].selected) {
+                    selected_count++;
+                }
+            }
+
+            // Reached the limit
+            if (selected_count === limit) {
+                this.disabled_limit = true
+
+                // Trigger the function (if there is)
+                if (typeof settings.limit_reached === 'function') {
+                    settings.limit_reached();
+                }
+
+                // Disable all non-selected option
+                for (var i = 0; i < select.options.length; i++) {
+                    var opt = select.options[i];
+
+                    if (!opt.selected) {
+                        opt.setAttribute("disabled", true);
+                    }
+                }
+            } else if (this.disabled_limit) {
+                // Enable options (only if they weren't disabled on init)
+                for (var i = 0; i < select.options.length; i++) {
+                    var opt = select.options[i];
+
+                    if (opt.getAttribute("data-origin-disabled") === 'false') {
+                        opt.removeAttribute("disabled");
+                    }
+                }
+
+                this.disabled_limit = false
+            }
+        }
+
         trigger_event("change", select);
     };
 
@@ -144,6 +189,10 @@ var multi = (function() {
 
         settings["required"] = select.required; // Honour the select's required attribute.
 
+        settings["limit"] = typeof settings["limit"] !== "undefined" ? parseInt(settings["limit"]) : -1;
+        if (isNaN(settings["limit"])) {
+            settings["limit"] = -1;
+        }
 
         // Check if already initalized
         if (select.dataset.multijs != null) {
@@ -194,7 +243,7 @@ var multi = (function() {
         // Add click handler to toggle the selected status
         wrapper.addEventListener("click", function (event) {
             if (event.target.getAttribute("multi-index")) {
-                toggle_option(select, event);
+                toggle_option(select, event, settings);
             }
         });
 
@@ -207,7 +256,7 @@ var multi = (function() {
             if (is_option && is_action_key) {
                 // Prevent the default action to stop scrolling when space is pressed
                 event.preventDefault();
-                toggle_option(select, event);
+                toggle_option(select, event, settings);
             }
         });
 
@@ -223,6 +272,11 @@ var multi = (function() {
         // Add multi.js wrapper after select element
         select.parentNode.insertBefore(wrapper, select.nextSibling);
 
+        // Save current state
+        for (var i = 0; i < select.options.length; i++) {
+            var option = select.options[i];
+            option.setAttribute("data-origin-disabled", option.disabled);
+        }
 
         // Initialize selector with values from select element
         refresh_select( select, settings );
@@ -231,7 +285,6 @@ var multi = (function() {
         select.addEventListener("change", function() {
             refresh_select(select, settings);
         });
-
     };
 
 
