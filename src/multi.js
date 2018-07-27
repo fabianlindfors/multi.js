@@ -187,11 +187,22 @@ var multi = (function() {
         settings["non_selected_header"] = typeof settings["non_selected_header"] !== "undefined" ? settings["non_selected_header"] : null;
         settings["selected_header"] = typeof settings["selected_header"] !== "undefined" ? settings["selected_header"] : null;
 
-        settings["required"] = select.required; // Honour the select's required attribute.
-
         settings["limit"] = typeof settings["limit"] !== "undefined" ? parseInt(settings["limit"]) : -1;
         if (isNaN(settings["limit"])) {
             settings["limit"] = -1;
+        }
+
+        // Honour the select's required attribute, by showing the validation error on the search input (when enabled).
+        settings["required"] = false;
+        if (select.required) {
+          if (!settings["enable_search"]) {
+            console.warn('Multi.js: A select element has its required attribute set, but search is disabled. No HTML5 required validation error can be shown without the search input.');
+          } else {
+            settings["required"] = true;
+          }
+          // Remove the required attribute from the original select.
+          // Otherwise the browser will attempt to display the validation error on the non-focusable select, show an error in the console, and block form submission.
+          select.required = false;
         }
 
         // Check if already initalized
