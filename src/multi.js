@@ -135,10 +135,10 @@ var multi = (function() {
                 item_group.className = "item-group";
 
                 if ( option.parentNode.label ) {
-                    var label = document.createElement("span");
-                    label.innerHTML = option.parentNode.label;
-                    label.className = "group-label"
-                    item_group.appendChild(label);
+                    var groupLabel = document.createElement("span");
+                    groupLabel.innerHTML = option.parentNode.label;
+                    groupLabel.className = "group-label"
+                    item_group.appendChild(groupLabel);
                 }
 
                 select.wrapper.non_selected.appendChild(item_group);
