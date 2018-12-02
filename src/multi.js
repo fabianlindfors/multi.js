@@ -298,4 +298,3 @@ if (typeof jQuery !== "undefined") {
 
     })(jQuery);
 }
-export default multi;

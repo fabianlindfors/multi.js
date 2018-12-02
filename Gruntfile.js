@@ -9,7 +9,8 @@ module.exports = function(grunt) {
             },
             dist: {
                 files: {
-                    'dist/multi.min.js': ['src/multi.js']
+                    'dist/multi.min.js': ['src/multi.js'],
+                    'dist/multi-es6.min.js': ['src/multi-es6.js']
                 }
             }
         },
