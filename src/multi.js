@@ -16,11 +16,11 @@ var multi = (function() {
     };
 
     // Toggles the target option on the select
-    var toggle_option = function ( select, event, settings ) {
+    var toggle_option = function(select, event, settings) {
         var option = select.options[event.target.getAttribute("multi-index")];
 
         if (option.disabled) {
-          return;
+            return;
         }
 
         option.selected = !option.selected;
@@ -118,13 +118,13 @@ var multi = (function() {
             row.setAttribute("multi-index", i);
 
             if (option.disabled) {
-              row.className += " disabled";
+                row.className += " disabled";
             }
 
             // Add row to selected column if option selected
             if (option.selected) {
                 row.className += " selected";
-                var clone = row.cloneNode( true );
+                var clone = row.cloneNode(true);
                 select.wrapper.selected.appendChild(clone);
             }
 
@@ -134,7 +134,7 @@ var multi = (function() {
                 item_group = document.createElement("div");
                 item_group.className = "item-group";
 
-                if ( option.parentNode.label ) {
+                if (option.parentNode.label) {
                     var groupLabel = document.createElement("span");
                     groupLabel.innerHTML = option.parentNode.label;
                     groupLabel.className = "group-label"
@@ -151,9 +151,9 @@ var multi = (function() {
             }
 
             // Apply search filtering
-            if (!query || query && label.toLowerCase().indexOf( query.toLowerCase() ) > -1 ) {
+            if (!query || query && label.toLowerCase().indexOf(query.toLowerCase()) > -1) {
                 // Append to group if one exists, else just append to wrapper
-                if ( item_group != null ) {
+                if (item_group != null) {
                     item_group.appendChild(row);
                 } else {
                     select.wrapper.non_selected.appendChild(row);
@@ -191,28 +191,28 @@ var multi = (function() {
         }
 
         // Make sure element is select and multiple is enabled
-        if (select.nodeName != "SELECT" || ! select.multiple) {
+        if (select.nodeName != "SELECT" || !select.multiple) {
             return;
         }
 
         // Hide select
         select.style.display = "none";
-        select.setAttribute( "data-multijs", true );
+        select.setAttribute("data-multijs", true);
 
         // Start constructing selector
-        var wrapper = document.createElement( "div" );
+        var wrapper = document.createElement("div");
         wrapper.className = "multi-wrapper";
 
 
         // Add search bar
         if (settings.enable_search) {
-            var search = document.createElement( "input" );
+            var search = document.createElement("input");
             search.className = "search-input";
             search.type = "text";
             search.setAttribute("placeholder", settings.search_placeholder);
 
             search.addEventListener("input", function() {
-                refresh_select( select, settings );
+                refresh_select(select, settings);
             });
 
             wrapper.appendChild(search);
@@ -229,7 +229,7 @@ var multi = (function() {
 
 
         // Add click handler to toggle the selected status
-        wrapper.addEventListener("click", function (event) {
+        wrapper.addEventListener("click", function(event) {
             if (event.target.getAttribute("multi-index")) {
                 toggle_option(select, event, settings);
             }
@@ -237,7 +237,7 @@ var multi = (function() {
 
 
         // Add keyboard handler to toggle the selected status
-        wrapper.addEventListener("keypress", function (event) {
+        wrapper.addEventListener("keypress", function(event) {
             var is_action_key = event.keyCode === 32 || event.keyCode === 13;
             var is_option = event.target.getAttribute("multi-index");
 
@@ -267,7 +267,7 @@ var multi = (function() {
         }
 
         // Initialize selector with values from select element
-        refresh_select( select, settings );
+        refresh_select(select, settings);
 
         // Refresh selector when select values change
         select.addEventListener("change", function() {
@@ -281,7 +281,7 @@ var multi = (function() {
 
 
 // Add jQuery wrapper if jQuery is present
-if ( typeof jQuery !== "undefined" ) {
+if (typeof jQuery !== "undefined") {
     (function($) {
 
         $.fn.multi = function(settings) {

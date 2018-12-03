@@ -1,23 +1,29 @@
 {
-  "name": "multi.js",
-  "version": "0.4.1",
-  "description": "A user-friendly replacement for select boxes with multiple attribute enabled",
-  "keywords": ["user-friendly", "select", "multiple", "simple"],
-  "homepage": "https://github.com/Fabianlindfors/multi.js",
-  "license": "MIT",
-  "author": {
-    "name": "Fabian Lindfors",
-    "url": "http://fabianlindfors.se"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/Fabianlindfors/multi.js.git"
-  },
-  "devDependencies": {
-    "grunt": "~0.4.5",
-    "grunt-contrib-cssmin": "^1.0.2",
-    "grunt-contrib-jshint": "~0.10.0",
-    "grunt-contrib-uglify": "~0.5.0",
-    "grunt-contrib-watch": "^1.0.0"
-  }
+    "name": "multi.js",
+    "version": "0.5.0",
+    "description": "A user-friendly replacement for select boxes with multiple attribute enabled",
+    "keywords": [
+        "user-friendly",
+        "select",
+        "multiple",
+        "simple"
+    ],
+    "homepage": "https://github.com/Fabianlindfors/multi.js",
+    "license": "MIT",
+    "author": {
+        "name": "Fabian Lindfors",
+        "url": "http://fabianlindfors.se"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/Fabianlindfors/multi.js.git"
+    },
+    "devDependencies": {
+        "grunt": "^1.0.3",
+        "grunt-contrib-concat": "^1.0.1",
+        "grunt-contrib-cssmin": "^3.0.0",
+        "grunt-contrib-jshint": "^2.0.0",
+        "grunt-contrib-uglify-es": "^3.3.0",
+        "grunt-contrib-watch": "^1.1.0"
+    }
 }

@@ -2,6 +2,13 @@ module.exports = function(grunt) {
 
     grunt.initConfig({
 
+        concat: {
+            dist: {
+                src: ['src/multi.js', 'src/es6-export.js'],
+                dest: 'dist/multi-es6.min.js'
+            },
+        },
+
         uglify: {
             options: {
                 // the banner is inserted at the top of the output
@@ -9,7 +16,8 @@ module.exports = function(grunt) {
             },
             dist: {
                 files: {
-                    'dist/multi.min.js': ['src/multi.js']
+                    'dist/multi.min.js': ['src/multi.js'],
+                    'dist/multi-es6.min.js': ['<%= concat.dist.dest %>']
                 }
             }
         },
@@ -29,8 +37,9 @@ module.exports = function(grunt) {
     });
 
     grunt.loadNpmTasks('grunt-contrib-cssmin');
-    grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks('grunt-contrib-uglify-es');
+    grunt.loadNpmTasks('grunt-contrib-concat');
 
-    grunt.registerTask('default', ['uglify', 'cssmin']);
+    grunt.registerTask('default', ['concat', 'uglify', 'cssmin']);
 
 };
