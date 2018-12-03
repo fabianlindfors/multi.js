@@ -33,15 +33,15 @@ Usage
 multi.js can be applied to any select element with the multiple attribute enabled.
 
 ```javascript
-var select_element = document.getElementById( 'your_select_element' );
-multi( select_element );
+var select_element = document.getElementById('your_select_element');
+multi(select_element);
 ```
 
 
 To customize multi a few options can be passed with the function call. Below are all the default values.
 
 ```javascript
-multi( select_element, {
+multi(select_element, {
     'enable_search': true,
     'search_placeholder': 'Search...',
     'non_selected_header': null,
@@ -56,7 +56,7 @@ multi( select_element, {
 To add headers to both columns set values for these options:
 
 ```javascript
-multi( select_element, {
+multi(select_element, {
     'non_selected_header': 'All options',
     'selected_header': 'Selected options'
 });
@@ -67,7 +67,7 @@ multi( select_element, {
 You can add a limit of option selected for your select using the `limit` parameter. Default is -1, which means "no limit".
 
 ```javascript
-multi( select_element, {
+multi(select_element, {
     'limit': 10
 });
 ```
@@ -75,7 +75,7 @@ multi( select_element, {
 Additionally, there a callback is available: `limit_reached`, invoked when the user selects the last available option before reaching the limit (for example, the 10th element of a maximum of 10).
 
 ```javascript
-multi( select_element, {
+multi(select_element, {
     'limit': 10,
     'limit_reached': function () {
       alert('You have selected 10/10 elements.');
@@ -88,7 +88,7 @@ multi( select_element, {
 multi.js is fully native Javascript but also has jQuery support. If you have jQuery included multi can be applied to a select element as follows:
 
 ```javascript
-$( '#your_select_element' ).multi();
+$('#your_select_element').multi();
 ```
 
 TODO
