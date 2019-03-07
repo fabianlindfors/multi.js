@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="utf-8">
+        <meta charset="utf-8" />
         <title>multi.js Basic Example</title>
 
         <!-- Include multi.js -->
-        <link rel="stylesheet" type="text/css" href="../dist/multi.min.css">
+        <link rel="stylesheet" type="text/css" href="../dist/multi.min.css" />
         <script src="../dist/multi.min.js"></script>
 
         <style>
@@ -15,7 +15,7 @@
             }
 
             .container {
-                box-sizing: border-box;;
+                box-sizing: border-box;
                 margin: 0 auto;
                 max-width: 500px;
                 padding: 0 20px;
@@ -28,7 +28,12 @@
             <h1>multi.js</h1>
 
             <form>
-                <select required multiple="multiple" name="favorite_fruits" id="fruit_select">
+                <select
+                    required
+                    multiple="multiple"
+                    name="favorite_fruits"
+                    id="fruit_select"
+                >
                     <option>Apple</option>
                     <option>Banana</option>
                     <option>Blueberry</option>
@@ -44,11 +49,10 @@
                 </select>
                 <button type="submit">Submit</button>
             </form>
-        </form>
         </div>
 
         <script>
-            var select = document.getElementById('fruit_select');
+            var select = document.getElementById("fruit_select");
             multi(select, {
                 enable_search: false
             });

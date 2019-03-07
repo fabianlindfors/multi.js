@@ -33,7 +33,7 @@ Usage
 multi.js can be applied to any select element with the multiple attribute enabled.
 
 ```javascript
-var select_element = document.getElementById('your_select_element');
+var select_element = document.getElementById("your_select_element");
 multi(select_element);
 ```
 
@@ -41,12 +41,12 @@ To customize multi a few options can be passed with the function call. Below are
 
 ```javascript
 multi(select_element, {
-    'enable_search': true,
-    'search_placeholder': 'Search...',
-    'non_selected_header': null,
-    'selected_header': null,
-    'limit': -1,
-    'limit_reached': function () {},
+    "enable_search": true,
+    "search_placeholder": "Search...",
+    "non_selected_header": null,
+    "selected_header": null,
+    "limit": -1,
+    "limit_reached": function () {},
 });
 ```
 
@@ -103,7 +103,7 @@ Contributing
 -----
 All contributions, big and small, are very welcome.
 
-Try to mimic the general programming style (mostly based on personal preferences) and keep any CSS as simple as possible. Build the project with Grunt and bump the version number before creating a pull request.
+Use [Prettier](https://prettier.io) to format all code after editing. Build the project with Grunt and bump the version number before creating a pull request.
 
 License
 -----
