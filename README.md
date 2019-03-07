@@ -3,9 +3,9 @@ multi.js
 
 multi.js is a user-friendly replacement for select boxes with the multiple attribute. It has no dependencies, is mobile-friendly, and provides search functionality. multi.js is also easy to style with CSS and optionally supports jQuery.
 
-Check out the [demo](http://fabianlindfors.se/multijs/).
+Check out the [demo](https://fabianlindfors.se/multijs/).
 
-![Preview of multi.js](http://fabianlindfors.se/multijs/images/preview.png)
+![Preview of multi.js](https://fabianlindfors.se/multijs/images/preview.png)
 
 Installation
 -----
@@ -36,7 +36,6 @@ multi.js can be applied to any select element with the multiple attribute enable
 var select_element = document.getElementById('your_select_element');
 multi(select_element);
 ```
-
 
 To customize multi a few options can be passed with the function call. Below are all the default values.
 
