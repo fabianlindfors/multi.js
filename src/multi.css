@@ -43,6 +43,12 @@
     border-radius: 2px;
 }
 
+.multi-wrapper .subtitle {
+    font-size: .7em;
+    color: #777;
+    pointer-events: none;
+}
+
 .multi-wrapper .item-group {
     padding: 5px 10px;
 }

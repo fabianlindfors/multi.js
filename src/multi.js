@@ -115,6 +115,13 @@ var multi = (function() {
       row.setAttribute("data-value", value);
       row.setAttribute("multi-index", i);
 
+      if (option.dataset.subtitle) {
+        var subtitle = document.createElement("div");
+        subtitle.className = "subtitle";
+        subtitle.innerText = option.dataset.subtitle;
+        row.appendChild(subtitle);
+      }
+
       if (option.disabled) {
         row.className += " disabled";
       }

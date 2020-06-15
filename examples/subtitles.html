@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>multi.js Subtitles Example</title>
+
+        <!-- Include multi.js -->
+        <link rel="stylesheet" type="text/css" href="../dist/multi.min.css" />
+        <script src="../dist/multi.min.js"></script>
+
+        <style>
+            /* Basic styling */
+            body {
+                font-family: sans-serif;
+            }
+
+            .container {
+                box-sizing: border-box;
+                margin: 0 auto;
+                max-width: 500px;
+                padding: 0 20px;
+                width: 100%;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>multi.js</h1>
+
+            <form>
+                <select
+                    required
+                    multiple="multiple"
+                    name="employees"
+                    id="employee_select"
+                >
+                    <option data-subtitle="dsmith@example.com">Dave Smith</option>
+                    <option data-subtitle="jrogers@example.com">Joan Rogers</option>
+                    <option data-subtitle="tbrown@example.com">Timothy Brown</option>
+                    <option data-subtitle="jpeters@example.com">Jacob Peters</option>
+                    <option data-subtitle="lgreen@example.com">Lauren Green</option>
+                </select>
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+
+        <script>
+            var select = document.getElementById("employee_select");
+            multi(select, {
+                enable_search: true
+            });
+        </script>
+    </body>
+</html>

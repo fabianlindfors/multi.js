@@ -82,6 +82,18 @@ multi(select_element, {
 });
 ```
 
+### Subtitles
+
+You can add a subtitle to each of the options by adding a `data-subtitle` attribute to the option element. For example if you wanted to include an email address below a person's name:
+
+```html
+<select id="employee_select" multiple>
+  <option data-subtitle="dsmith@example.com">Dave Smith</option>
+  <option data-subtitle="jrogers@example.com">Joan Rogers</option>
+  <option data-subtitle="tbrown@example.com">Timothy Brown</option>
+</select>
+```
+
 ### jQuery
 
 multi.js is fully native Javascript but also has jQuery support. If you have jQuery included multi can be applied to a select element as follows:
