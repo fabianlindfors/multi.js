@@ -21,6 +21,13 @@ Install with yarn:
 yarn add multi.js
 ```
 
+After installation either via npm or yarn, import JS and styles in your project:
+
+```bash
+import multi from "multi.js/dist/multi-es6.min.js";
+import "multi.js/dist/multi.min.css";
+```
+
 Install manually by cloning or downloading the repository to your project and including both files in the dist directory.
 
 ```html
