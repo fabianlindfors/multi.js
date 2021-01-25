@@ -168,6 +168,16 @@ var multi = (function() {
         }
       }
     }
+
+    // Hide empty optgroups
+    if (settings.hide_empty_groups) {
+      var optgroups = document.getElementsByClassName('item.group');
+      for (var i = 0; i < optgroups.length; i++) {
+        if (optgroups[i].childElementCount < 2) { // only has a 
+          optgroups[i].style.display = 'none';
+        }
+      }
+    }
   };
 
   // Intializes and constructs an multi.js instance
@@ -204,6 +214,10 @@ var multi = (function() {
     if (isNaN(settings["limit"])) {
       settings["limit"] = -1;
     }
+    settings["hide_empty_groups"] =
+      typeof settings["hide_empty_groups"] !== "undefined"
+        ? settings["hide_empty_groups"]
+        : false;
 
     // Check if already initalized
     if (select.dataset.multijs != null) {
@@ -229,6 +243,7 @@ var multi = (function() {
       search.className = "search-input";
       search.type = "text";
       search.setAttribute("placeholder", settings.search_placeholder);
+      search.setAttribute("title", settings.search_placeholder);
 
       search.addEventListener("input", function() {
         refresh_select(select, settings);

@@ -47,6 +47,7 @@ multi(select_element, {
     "selected_header": null,
     "limit": -1,
     "limit_reached": function () {},
+    "hide_empty_groups": false,
 });
 ```
 
