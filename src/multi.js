@@ -171,7 +171,7 @@ var multi = (function() {
 
     // Hide empty optgroups
     if (settings.hide_empty_groups) {
-      var optgroups = document.getElementsByClassName('item.group');
+      var optgroups = document.getElementsByClassName('item-group');
       for (var i = 0; i < optgroups.length; i++) {
         if (optgroups[i].childElementCount < 2) { // only has a 
           optgroups[i].style.display = 'none';
