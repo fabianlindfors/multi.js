@@ -173,7 +173,8 @@ var multi = (function() {
     if (settings.hide_empty_groups) {
       var optgroups = document.getElementsByClassName('item-group');
       for (var i = 0; i < optgroups.length; i++) {
-        if (optgroups[i].childElementCount < 2) { // only has a 
+        // Hide optgroup if optgroup only contains a group label
+        if (optgroups[i].childElementCount < 2) {
           optgroups[i].style.display = 'none';
         }
       }
