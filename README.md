@@ -90,6 +90,17 @@ multi(select_element, {
 });
 ```
 
+### Search multiple words
+
+You can search using multiple words that will not exclude each other by using the `search_multiple_words` setting.
+
+```javascript
+multi(select_element, {
+    'search_multiple_words': true
+});
+```
+
+
 ### jQuery
 
 multi.js is fully native Javascript but also has jQuery support. If you have jQuery included multi can be applied to a select element as follows:
