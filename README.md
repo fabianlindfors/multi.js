@@ -90,6 +90,14 @@ multi(select_element, {
 });
 ```
 
+### Extended search
+
+You can extended your options search abilities by adding custom search parameters in `data-search=""` to your options.
+
+```html
+<option data-search="delicious taste for a pie">Apple</option>
+```
+
 ### jQuery
 
 multi.js is fully native Javascript but also has jQuery support. If you have jQuery included multi can be applied to a select element as follows:
