@@ -98,15 +98,6 @@ multi.js is fully native Javascript but also has jQuery support. If you have jQu
 $('#your_select_element').multi();
 ```
 
-TODO
------
-* ~~Native Javascript, no jQuery~~
-* ~~Support for disabled options~~
-* ~~Support for optgroups~~
-* Browser testing
-* Support for retrieving options by AJAX
-* Tests
-
 Contributing
 -----
 All contributions, big and small, are very welcome.
