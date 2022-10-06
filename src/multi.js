@@ -110,6 +110,7 @@ var multi = (function() {
 
       var value = option.value;
       var label = option.textContent || option.innerText;
+      var search = option.getAttribute('data-search')
 
       var row = document.createElement("a");
       row.tabIndex = 0;
@@ -118,6 +119,10 @@ var multi = (function() {
       row.setAttribute("role", "button");
       row.setAttribute("data-value", value);
       row.setAttribute("multi-index", i);
+
+      if (search) {
+        row.setAttribute("data-search", search);
+      }
 
       if (option.disabled) {
         row.className += " disabled";
@@ -158,7 +163,8 @@ var multi = (function() {
       // Apply search filtering
       if (
         !query ||
-        (query && label.toLowerCase().indexOf(query.toLowerCase()) > -1)
+        (query && label.toLowerCase().indexOf(query.toLowerCase()) > -1) ||
+        (query && search && search.toLowerCase().indexOf(query.toLowerCase()) > -1)
       ) {
         // Append to group if one exists, else just append to wrapper
         if (item_group != null) {
