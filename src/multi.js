@@ -158,7 +158,10 @@ var multi = (function() {
       // Apply search filtering
       if (
         !query ||
-        (query && label.toLowerCase().indexOf(query.toLowerCase()) > -1)
+        (query && label.toLowerCase().indexOf(query.toLowerCase()) > -1) ||
+        (settings.search_multiple_words && query && query.split(' ').some(word => {
+          return word !== '' && (label.toLowerCase().indexOf(word.toLowerCase()) > -1 || search && search.toLowerCase().indexOf(word.toLowerCase()) > -1)
+        }))
       ) {
         // Append to group if one exists, else just append to wrapper
         if (item_group != null) {
@@ -218,6 +221,10 @@ var multi = (function() {
     settings["hide_empty_groups"] =
       typeof settings["hide_empty_groups"] !== "undefined"
         ? settings["hide_empty_groups"]
+        : false;
+    settings["search_multiple_words"] =
+      typeof settings["search_multiple_words"] !== "undefined"
+        ? settings["search_multiple_words"]
         : false;
 
     // Check if already initalized
