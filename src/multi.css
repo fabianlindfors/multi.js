@@ -49,8 +49,7 @@
 
 .multi-wrapper .item-group .group-label {
     display: block;
-    font-size: 0.875rem;
-    opacity: 0.5;
+    font-weight: bold;
     padding: 5px 0;
 }
 
