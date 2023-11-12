@@ -103,6 +103,11 @@ var multi = (function() {
     // Current group
     var item_group = null;
     var current_optgroup = null;
+	
+    // Do we need to hide duplicate selected options?
+    if (settings["hide_duplicate_selected_options"]) {
+      var track_selected_options = {}
+    }
 
     // Loop over select options and add to the non-selected and selected columns
     for (var i = 0; i < select.options.length; i++) {
@@ -127,7 +132,17 @@ var multi = (function() {
       if (option.selected) {
         row.className += " selected";
         var clone = row.cloneNode(true);
-        select.wrapper.selected.appendChild(clone);
+		
+        // Do we need to avoid adding duplicate selected options to selected column?
+        if (settings["hide_duplicate_selected_options"]) {
+          if (!track_selected_options[value]) {
+            select.wrapper.selected.appendChild(clone);
+            track_selected_options[value] = true;
+          }          
+        }
+        else {		
+          select.wrapper.selected.appendChild(clone);
+        }
       }
 
       // Create group if entering a new optgroup
@@ -218,6 +233,10 @@ var multi = (function() {
     settings["hide_empty_groups"] =
       typeof settings["hide_empty_groups"] !== "undefined"
         ? settings["hide_empty_groups"]
+        : false;
+	settings["hide_duplicate_selected_options"] =
+      typeof settings["hide_duplicate_selected_options"] !== "undefined"
+        ? settings["hide_duplicate_selected_options"]
         : false;
 
     // Check if already initalized
