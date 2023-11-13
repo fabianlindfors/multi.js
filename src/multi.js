@@ -9,9 +9,10 @@ var multi = (function() {
   var disabled_limit = false; // This will prevent to reset the "disabled" because of the limit at every click
 
   // Helper function to trigger an event on an element
-  var trigger_event = function(type, el) {
+  var trigger_event = function(type, el, causedBy) {
     var e = document.createEvent("HTMLEvents");
     e.initEvent(type, false, true);
+    e.causedBy = causedBy;
     el.dispatchEvent(e);
   };
 
@@ -71,8 +72,16 @@ var multi = (function() {
 
     check_limit(select, settings);
 
-    trigger_event("change", select);
+    trigger_event("change", select, option);
   };
+  
+  // Handle change event by performing any actions needed before refresh_select is called
+  var change_handler = function(ev, select, settings) {
+    if (settings["hide_duplicate_selected_options"]) {
+      
+    }
+    refresh_select(select, settings);
+  }
 
   // Refreshes an already constructed multi.js instance
   var refresh_select = function(select, settings) {
@@ -322,9 +331,9 @@ var multi = (function() {
     // Initialize selector with values from select element
     refresh_select(select, settings);
 
-    // Refresh selector when select values change
-    select.addEventListener("change", function() {
-      refresh_select(select, settings);
+    // Call handler when select values change
+    select.addEventListener("change", function(ev) {
+      change_handler(ev, select, settings);      
     });
   };
 
