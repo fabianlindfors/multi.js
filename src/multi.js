@@ -77,8 +77,13 @@ var multi = (function() {
   
   // Handle change event by performing any actions needed before refresh_select is called
   var change_handler = function(ev, select, settings) {
-    if (settings["hide_duplicate_selected_options"]) {
-      
+    // Do we need to ensure all duplicate options have the same state?
+    if (settings["deduplicate_selected_options"]) {
+      // Find all duplicate options with same value as the option that triggered the change. 
+      // Note, this will also include the triggering option too.
+      var matches = select.querySelectorAll(`option[value="${ev.causedBy.value}"]`);
+      // Ensure all matches' selected property is the same as triggering option's selected property.      
+      matches.forEach(function(el) { el.selected = ev.causedBy.selected });
     }
     refresh_select(select, settings);
   }
@@ -114,7 +119,7 @@ var multi = (function() {
     var current_optgroup = null;
 	
     // Do we need to hide duplicate selected options?
-    if (settings["hide_duplicate_selected_options"]) {
+    if (settings["deduplicate_selected_options"]) {
       var track_selected_options = {}
     }
 
@@ -143,7 +148,7 @@ var multi = (function() {
         var clone = row.cloneNode(true);
 		
         // Do we need to avoid adding duplicate selected options to selected column?
-        if (settings["hide_duplicate_selected_options"]) {
+        if (settings["deduplicate_selected_options"]) {
           if (!track_selected_options[value]) {
             select.wrapper.selected.appendChild(clone);
             track_selected_options[value] = true;
@@ -243,9 +248,9 @@ var multi = (function() {
       typeof settings["hide_empty_groups"] !== "undefined"
         ? settings["hide_empty_groups"]
         : false;
-	settings["hide_duplicate_selected_options"] =
-      typeof settings["hide_duplicate_selected_options"] !== "undefined"
-        ? settings["hide_duplicate_selected_options"]
+	settings["deduplicate_selected_options"] =
+      typeof settings["deduplicate_selected_options"] !== "undefined"
+        ? settings["deduplicate_selected_options"]
         : false;
 
     // Check if already initalized
