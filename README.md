@@ -55,6 +55,7 @@ multi(select_element, {
     "limit": -1,
     "limit_reached": function () {},
     "hide_empty_groups": false,
+    "deduplicate_selected_options" : false
 });
 ```
 
